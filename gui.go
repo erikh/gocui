@@ -409,6 +409,9 @@ func (g *Gui) consumeevents() error {
 // etc.)
 func (g *Gui) handleEvent(ev *termbox.Event) error {
 	switch ev.Type {
+	case termbox.EventResize:
+		g.Update(func(g *Gui) error { return nil })
+		return nil
 	case termbox.EventKey, termbox.EventMouse:
 		return g.onKey(ev)
 	case termbox.EventError:
