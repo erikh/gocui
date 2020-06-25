@@ -337,13 +337,18 @@ func (g *Gui) SetManager(managers ...Manager) {
 	g.views = nil
 	g.keybindings = nil
 
-	go func() { g.tbEvents <- termbox.Event{Type: termbox.EventResize} }()
+	g.Resize()
 }
 
 // SetManagerFunc sets the given manager function. It deletes all views and
 // keybindings.
 func (g *Gui) SetManagerFunc(manager func(*Gui) error) {
 	g.SetManager(ManagerFunc(manager))
+}
+
+// Resize the GUI; executes all layout managers.
+func (g *Gui) Resize() {
+	go func() { g.tbEvents <- termbox.Event{Type: termbox.EventResize} }()
 }
 
 // MainLoop runs the main loop until an error is returned. A successful
